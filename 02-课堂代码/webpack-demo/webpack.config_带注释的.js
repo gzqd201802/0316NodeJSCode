@@ -5,19 +5,19 @@ const path = require('path');
 // !!如果翻译报错信息的时候出现某个废弃的关键词，我们npm install 包的时候加个 @next 使用最新版
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+// 处理 html 文件的插件
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// 用来清理 dist 目录的插件
+// !!这里插件也更新的，最新版的插件返回的是一个对象，要通过解构赋值语法把构造函数解构出来
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 
 // 需要用 module.exports 导出语法，最终提供给 webpack 程序运行的
 module.exports = {
     // 概念1：entry 入口文件配置
     entry: './src/index.js',
-    // 概念2：output 输出配置
-    output: {
-        // 输出到哪个路径，需要绝对路径，path.resolve() 第二个参数直接写文件夹名称
-        path: path.resolve(__dirname, 'dist'),
-        // 输出文件的名称，名称可以随意，但是大部分情况下叫 bundle.js
-        filename: 'bundle.js'
-    },
-    // 概念3：module 模块加载器配置
+    // 概念2：module 模块加载器配置
     module: {
         // 处理规则，数组格式，所有要处理文件，规则都写到 rules 里面
         rules: [
@@ -87,4 +87,26 @@ module.exports = {
             },
         ]
     },
+    // 概念3：插件列表
+    plugins: [
+        // 启用 清理 dist 目录的插件
+        new CleanWebpackPlugin(),
+        // 启用 抽离 css 独立文件的插件
+        new ExtractTextPlugin("./style/styles.css"),
+        // 启用 自动生成 html 的插件
+        new HtmlWebpackPlugin({
+            title: '改标题',
+            minify: true,
+            // template 指定 html 模板位置，不指定可以智能识别
+            // template: "src/public/index.html"
+        })
+    ],
+    // 概念4：output 输出配置
+    output: {
+        // path 配置要求使用绝对路径
+        // 输出到哪个路径，需要绝对路径，path.resolve() 第二个参数直接写文件夹名称
+        path: path.resolve(__dirname, 'dist'),
+        // 输出文件的名称，名称可以随意，但是大部分情况下叫 bundle.js
+        filename: 'bundle.js'
+    }
 };

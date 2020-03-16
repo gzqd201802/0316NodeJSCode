@@ -6,7 +6,7 @@ import './style/header.css';
 import './style/slider.less';
 
 // 把图片导入，文件的路径保存到 logo 变量中
-import logo from './images/197.jpg';
+import logo from './images/502.jpg';
 
 console.log(logo);
 
