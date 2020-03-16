@@ -47,11 +47,13 @@
 
 ## 搭建项目架构(固定的做法,只是给后面的Vue项目做基础准备)
 
-目前为止,我们演示了 webpack 的基本使用
+目前为止,我们演示了 webpack  的基本使用
 
 实际的项目中, 不可能所有代码都这么堆在一起的。
 
 其实是为之后的 Vue 项目搭建架构做准备。
+
+
 
 ### 准备项目文件结构
 
@@ -236,7 +238,7 @@ module.exports = {
 
 模块加载器是webpack用于加载并处理其他 **非js文件** 的外部功能库，
 
-比如以后自定义模板文件(Vue)，css/less，图片，字体等资源文件。
+比如以后自定义模板文件( xxx.vue )，css/less，图片，字体等资源文件。
 
 因为 webpack 自己的开发团队有限，很多功能来不及实现, 也不一定有足够的对应技术实力。
 
@@ -244,11 +246,15 @@ module.exports = {
 
 例子就是 Vue：
 
-对于 Vue 的文件处理, 作者本身肯定认识比 webpack 开发者深。
+对于 Vue 的文件处理, Vue 作者本身肯定认识比 webpack 开发者深。
 
 所以 webpack 实现核心打包功能, 把独特文件的 loader 加载器交给其他开发者是一个很好的策略。
 
 这是 webpack 成功一个非常重要的因素。
+
+
+
+特点：需要编译打包某类文件，就需要下载对应的 loader 并 配置该文件的处理规则。
 
 
 
@@ -258,7 +264,7 @@ module.exports = {
 >
 > 对于其他文件, 本来 node 是不认识的
 >
-> 所以需要借助别的工具来进行处理
+> 所以需要借助别的工具来进行处理。
 
 
 
@@ -393,7 +399,6 @@ var element = document.createElement("div");
 element.innerHTML = `<div class="red">hello webpack</div>`;
 
 document.body.appendChild(element);
-
 ```
 
 
@@ -426,9 +431,9 @@ module.exports = {
             {
                 test: /\.less$/,		// 匹配less扩展名文件
                 use:[				
-                    'style-loader',		// 把less代码写入到网页中
-                    'css-loader',		// 读取less的代码
-                    'less-loader'		// 解释编译less代码
+                    'style-loader',		// 3. 把 css 代码写入到网页中
+                    'css-loader',		// 2. 读取 css 的代码
+                    'less-loader'		// 1. 解释编译less代码处理成 css 代码
                 ]	
             },
         ]
@@ -574,6 +579,10 @@ loader 加载器可以教会 webpack 处理不同文件，
 npm install extract-text-webpack-plugin@next --save-dev
 ```
 
+@next  安装最新版。
+
+
+
 配置 webpack
 
 跟加载器不一样
@@ -686,11 +695,11 @@ npm run start
 
 
 
-### 自动生成html
+### 自动生成 html
 
 目前我们都是在 index.html 中手动引入打包后的资源，这种引入方式有很多缺点，比如文件名依赖问题，`假如 webpack 配置中的输出文件名修改了，需要及时在 index.html 中同步修改，`再者每次新增文件都要引入一遍很繁琐。
 
-可以使用 [HtmlWebpackPlugin插件](https://www.webpackjs.com/guides/output-management/#%E8%AE%BE%E5%AE%9A-htmlwebpackplugin) 自动引入打包后的资源文件到html文件，该插件需要指定一个html模板文件，并且会生成一个 index.html 文件到 dist 目录中。
+可以使用 [HtmlWebpackPlugin插件](https://www.webpackjs.com/guides/output-management/#%E8%AE%BE%E5%AE%9A-htmlwebpackplugin) 自动引入打包后的资源文件到 html 文件，该插件需要指定一个html模板文件，并且会生成一个 index.html 文件到 dist 目录中。
 
 既然都要自动生成了，那么 dist 下 index.html 就没必要存在了，删除 `dist/index.html`，并且新建html模板文件.
 
@@ -771,17 +780,23 @@ npm run start
 
 
 
-### 打包前清理旧dist文件夹
+### 打包前清理旧 dist 文件夹
+
+主要是因为 webpack 每次运行打包的时候，文件是增量创建。
 
 使用 [clean-webpack-plugin插件](https://www.webpackjs.com/guides/output-management/#%E6%B8%85%E7%90%86-dist-%E6%96%87%E4%BB%B6%E5%A4%B9) 在每次打包前清除下dist文件夹的内容。
 
-webpack 官方对于这个插件的文档有坑 如果需要可以看作者自己的文档
+webpack 官方对于这个插件的文档有坑 如果需要可以看作者自己的文档。
 
 或者直接按照这里的实例来写即可
 
 作者的文档:
 
  https://github.com/johnagan/clean-webpack-plugin#options-and-defaults-optional 
+
+npm 文档：
+
+https://www.npmjs.com/package/clean-webpack-plugin
 
 安装依赖包
 
