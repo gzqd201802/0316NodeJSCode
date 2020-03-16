@@ -45,12 +45,12 @@ module.exports = {
                 // 匹配 png|jpg|gif 结尾的文件
                 test: /\.(png|jpg|gif)$/,
                 // use 指定用什么 loader 处理以上后缀名的文件
-                use:[
+                use: [
                     {
                         // 使用 file-loader
-                        loader:'file-loader',
+                        loader: 'file-loader',
                         // options 对象，设置 file-loader 的加载器的配置
-                        options:{
+                        options: {
                             // name 名称设置：
                             // [name] 原名称占位符 
                             // [ext]  原后缀占位符
@@ -70,9 +70,9 @@ module.exports = {
                 test: /\.css$/,
                 // 使用插件 ExtractTextPlugin 处理
                 use: ExtractTextPlugin.extract({
-                  fallback: "style-loader",
-                  // 插件需要用到的 loader
-                  use: "css-loader"
+                    fallback: "style-loader",
+                    // 插件需要用到的 loader
+                    use: "css-loader"
                 })
             },
             // less 文件也通过插件抽离出去
@@ -108,5 +108,16 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         // 输出文件的名称，名称可以随意，但是大部分情况下叫 bundle.js
         filename: 'bundle.js'
-    }
+    },
+
+    // 指定为开发环境
+    mode:"development",
+    
+    // 开发配置：让压缩后的代码能映射回源代码位置，用于调试 bug
+    devtool: "source-map", // + 生成映射源代码文件
+
+    // + 开发服务配置
+    devServer: {
+        port: 8080 // 默认端口是8080
+    },
 };
